@@ -1,8 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 Route::get('/', function () {
+    $filters = [
+        'all' => 'All',
+        'planned' => 'Planned',
+        'in-progress' => 'In progress',
+        'shipped' => 'Shipped',
+    ];
+
     $releases = [
         [
             'title' => 'Customer export',
@@ -21,5 +29,18 @@ Route::get('/', function () {
         ],
     ];
 
-    return view('releases.index', compact('releases'));
+    $selectedStatus = (string) request()->query('status', 'all');
+
+    if (! array_key_exists($selectedStatus, $filters)) {
+        $selectedStatus = 'all';
+    }
+
+    if ($selectedStatus !== 'all') {
+        $releases = array_values(array_filter(
+            $releases,
+            fn (array $release): bool => Str::slug($release['status']) === $selectedStatus,
+        ));
+    }
+
+    return view('releases.index', compact('filters', 'releases', 'selectedStatus'));
 });

@@ -49,10 +49,39 @@
 
         .intro {
             max-width: 40rem;
-            margin: 1.5rem 0 3rem;
+            margin: 1.5rem 0 2rem;
             color: #9aabc1;
             font-size: 1.1rem;
             line-height: 1.7;
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-bottom: 2rem;
+        }
+
+        .filter-link {
+            padding: 0.65rem 0.9rem;
+            border: 1px solid #2a415e;
+            border-radius: 999px;
+            color: #b9c8da;
+            font-size: 0.85rem;
+            font-weight: 750;
+            text-decoration: none;
+            transition: border-color 160ms ease, color 160ms ease, background 160ms ease;
+        }
+
+        .filter-link:hover {
+            border-color: #65d6c2;
+            color: #e5eefb;
+        }
+
+        .filter-link[aria-current="page"] {
+            border-color: #65d6c2;
+            background: #65d6c2;
+            color: #08111f;
         }
 
         .release-grid {
@@ -101,6 +130,18 @@
             A deliberately small Laravel application used to demonstrate a
             ticket-to-PR workflow with a coding agent.
         </p>
+
+        <nav class="filters" aria-label="Filter releases by status">
+            @foreach ($filters as $key => $label)
+                <a
+                    class="filter-link"
+                    href="{{ $key === 'all' ? url('/') : url('/').'?status='.$key }}"
+                    @if ($selectedStatus === $key) aria-current="page" @endif
+                >
+                    {{ $label }}
+                </a>
+            @endforeach
+        </nav>
 
         <section class="release-grid" aria-label="Product releases">
             @foreach ($releases as $release)
