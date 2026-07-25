@@ -99,7 +99,7 @@
         <h1>Know what is shipping next.</h1>
         <p class="intro">
             A deliberately small Laravel application used to demonstrate a
-            ticket-to-PR workflow with Codex.
+            ticket-to-PR workflow with a coding agent.
         </p>
 
         <section class="release-grid" aria-label="Product releases">
